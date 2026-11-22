@@ -69,6 +69,7 @@ export interface SiteTranslations {
     subtitle: string;
     callNow: string;
     whatsappUs: string;
+    requestEstimate: string;
     trustHighlights: [string, string, string];
     carouselLabel: string;
     prevSlide: string;
@@ -189,6 +190,8 @@ export interface SiteTranslations {
     quickLinks: string;
     ourServices: string;
     contactDetails: string;
+    privacyPolicy: string;
+    termsOfService: string;
     copyright: string;
     subline: string;
   };
@@ -236,12 +239,13 @@ export const TRANSLATIONS: Record<Language, SiteTranslations> = {
     },
     hero: {
       availabilityBadge: 'Available for Emergency Services',
-      headingStart: 'Reliable Electrical Services,',
+      headingStart: 'Reliable Electrical Services in Coimbatore,',
       headingHighlight: 'Right at Your Doorstep.',
       subtitle:
         'From household electrical repairs to office wiring and industrial electrical maintenance, M S Electrical Solution delivers dependable electrical services across Coimbatore.',
-      callNow: 'Call Now',
+      callNow: 'Book a Call',
       whatsappUs: 'WhatsApp Us',
+      requestEstimate: 'Or request a free doorstep service estimate',
       trustHighlights: [
         'Doorstep Electrical Services',
         'Experienced Professionals',
@@ -517,6 +521,8 @@ export const TRANSLATIONS: Record<Language, SiteTranslations> = {
       quickLinks: 'Quick Links',
       ourServices: 'Our Services',
       contactDetails: 'Contact Details',
+      privacyPolicy: 'Privacy Policy',
+      termsOfService: 'Terms of Service',
       copyright: '© 2026 M S Electrical Solution. All Rights Reserved.',
       subline: 'Doorstep Electrical Services • Coimbatore, Tamil Nadu',
     },
@@ -563,12 +569,13 @@ export const TRANSLATIONS: Record<Language, SiteTranslations> = {
     },
     hero: {
       availabilityBadge: 'அவசர மின்சார சேவைகளுக்கு 24/7 தயார்',
-      headingStart: 'நம்பகமான மின்சார சேவைகள்,',
+      headingStart: 'கோவையில் நம்பகமான மின்சார சேவைகள்,',
       headingHighlight: 'உங்கள் வீட்டு வாசலிலேயே.',
       subtitle:
         'வீட்டு மின்சார பழுதுபார்ப்பு முதல் அலுவலக வயரிங் மற்றும் தொழிற்சாலை மின்சார பராமரிப்பு வரை, கோவை முழுவதும் நம்பகமான சேவைகளை M S Electrical Solution வழங்குகிறது.',
-      callNow: 'அழைக்கவும்',
+      callNow: 'அழைத்து முன்பதிவு செய்க',
       whatsappUs: 'WhatsApp செய்தி',
+      requestEstimate: 'அல்லது இலவச சேவை மதிப்பீடு பெற படிவத்தை நிரப்பவும்',
       trustHighlights: [
         'வீட்டு வாசலில் மின்சார சேவைகள்',
         'அனுபவமிக்க மின்சார நிபுணர்கள்',
@@ -844,6 +851,8 @@ export const TRANSLATIONS: Record<Language, SiteTranslations> = {
       quickLinks: 'விரைவு இணைப்புகள்',
       ourServices: 'எங்கள் சேவைகள்',
       contactDetails: 'தொடர்பு விவரங்கள்',
+      privacyPolicy: 'தனியுரிமைக் கொள்கை (Privacy Policy)',
+      termsOfService: 'சேவை விதிமுறைகள் (Terms of Service)',
       copyright: '© 2026 M S Electrical Solution. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.',
       subline: 'வீட்டு வாசலில் மின்சார சேவைகள் • கோயம்புத்தூர், தமிழ்நாடு',
     },

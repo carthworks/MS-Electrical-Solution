@@ -82,174 +82,180 @@
       rel="stylesheet"
     />
 
-    <!-- Structured Data (Verified LocalBusiness / Electrician Graph) -->
+    <!-- Structured Data: schema.org/LocalBusiness & Electrician (Verified Information) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@graph": [
+        "@type": ["LocalBusiness", "Electrician"],
+        "@id": "https://mselectricalsolutions.wordpress.com/#localbusiness",
+        "name": "M S Electrical Solution",
+        "alternateName": "MS Electrical Solution",
+        "description": "Coimbatore-based doorstep electrical service provider offering domestic and office wiring, ceiling and exhaust fan services, old house rewiring, switchboard upgrades, water pump services, EOT crane electrical maintenance, and 24/7 emergency electrical support.",
+        "url": "https://mselectricalsolutions.wordpress.com/",
+        "telephone": "+91-9994505144",
+        "email": "mselectricalsolutioncbe@gmail.com",
+        "image": [
+          "/images/hero-switchboard.jpg",
+          "/images/about-technician.jpg",
+          "/images/work-wiring-panel.jpg",
+          "/images/work-ceiling-fan.jpg",
+          "/images/work-eot-crane.jpg"
+        ],
+        "founder": {
+          "@type": "Person",
+          "name": "M. Suganya",
+          "jobTitle": "Proprietor"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "5th Street Ext, Subbana Gounder Layout, Gandhipuram",
+          "addressLocality": "Coimbatore",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "641012",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 11.0168,
+          "longitude": 76.9558
+        },
+        "hasMap": "https://www.google.com/maps/search/?api=1&query=5th+Street+Ext+Subbana+Gounder+Layout+Gandhipuram+Coimbatore+641012",
+        "areaServed": {
+          "@type": "City",
+          "name": "Coimbatore"
+        },
+        "openingHours": "Mo-Su 00:00-23:59",
+        "openingHoursSpecification": [
           {
-            "@type": "Electrician",
-            "@id": "https://mselectricalsolutions.wordpress.com/#business",
-            "name": "M S Electrical Solution",
-            "alternateName": "MS Electrical Solution",
-            "description": "Coimbatore-based doorstep electrical service provider offering domestic and office wiring, ceiling and exhaust fan services, old house rewiring, switchboard upgrades, water pump services, EOT crane electrical maintenance, and 24/7 emergency electrical support.",
-            "url": "https://mselectricalsolutions.wordpress.com/",
-            "telephone": "+91-9994505144",
-            "email": "mselectricalsolutioncbe@gmail.com",
-            "image": [
-              "/images/hero-switchboard.jpg",
-              "/images/about-technician.jpg",
-              "/images/work-wiring-panel.jpg",
-              "/images/work-ceiling-fan.jpg",
-              "/images/work-eot-crane.jpg"
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
             ],
-            "founder": {
-              "@type": "Person",
-              "name": "M. Suganya",
-              "jobTitle": "Proprietor"
-            },
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "5th Street Ext, Subbana Gounder Layout, Gandhipuram",
-              "addressLocality": "Coimbatore",
-              "addressRegion": "Tamil Nadu",
-              "postalCode": "641012",
-              "addressCountry": "IN"
-            },
-            "geo": {
-              "@type": "GeoCoordinates",
-              "latitude": 11.0168,
-              "longitude": 76.9558
-            },
-            "hasMap": "https://www.google.com/maps/search/?api=1&query=5th+Street+Ext+Subbana+Gounder+Layout+Gandhipuram+Coimbatore+641012",
-            "areaServed": {
-              "@type": "City",
-              "name": "Coimbatore"
-            },
-            "contactPoint": [
-              {
-                "@type": "ContactPoint",
-                "telephone": "+91-9994505144",
-                "contactType": "customer service",
-                "areaServed": "IN",
-                "availableLanguage": ["English", "Tamil"]
-              },
-              {
-                "@type": "ContactPoint",
-                "telephone": "+91-9994505144",
-                "contactType": "emergency",
-                "areaServed": "IN",
-                "availableLanguage": ["English", "Tamil"]
-              }
-            ],
-            "openingHoursSpecification": [
-              {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday"
-                ],
-                "opens": "00:00",
-                "closes": "23:59"
-              }
-            ],
-            "hasOfferCatalog": {
-              "@type": "OfferCatalog",
-              "name": "Electrical Services in Coimbatore",
-              "itemListElement": [
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Domestic & Office Wiring",
-                    "description": "Electrical wiring installation, maintenance and repair for homes and offices."
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Ceiling & Exhaust Fan Services",
-                    "description": "Installation, repair and replacement of ceiling fans and exhaust fans."
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "24/7 Emergency Electrical Services",
-                    "description": "Electrical emergency assistance for urgent electrical problems."
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Old House Rewiring",
-                    "description": "Complete rewiring solutions and electrical system upgrades for older buildings."
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Switchboard Upgrades",
-                    "description": "Switchboard alterations, upgrades and electrical point improvements."
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Water Pump Services",
-                    "description": "Water pump installation, repair and alarm system installation."
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "EOT Crane Services",
-                    "description": "Electrical maintenance, troubleshooting and repair services for EOT cranes."
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "@type": "WebSite",
-            "@id": "https://mselectricalsolutions.wordpress.com/#website",
-            "name": "M S Electrical Solution",
-            "url": "https://mselectricalsolutions.wordpress.com/",
-            "publisher": {
-              "@id": "https://mselectricalsolutions.wordpress.com/#business"
-            }
-          },
-          {
-            "@type": "WebPage",
-            "@id": "https://mselectricalsolutions.wordpress.com/#webpage",
-            "url": "https://mselectricalsolutions.wordpress.com/",
-            "name": "M S Electrical Solution | Electrician & Electrical Services in Coimbatore",
-            "description": "Looking for reliable electrical services in Coimbatore? M S Electrical Solution offers home and office wiring, fan repairs, rewiring, switchboard upgrades, water pump services and emergency electrical support.",
-            "isPartOf": {
-              "@id": "https://mselectricalsolutions.wordpress.com/#website"
-            },
-            "about": {
-              "@id": "https://mselectricalsolutions.wordpress.com/#business"
-            },
-            "inLanguage": "en-IN"
+            "opens": "00:00",
+            "closes": "23:59"
           }
-        ]
+        ],
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-9994505144",
+            "contactType": "customer service",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Tamil"]
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-9994505144",
+            "contactType": "emergency",
+            "areaServed": "IN",
+            "availableLanguage": ["English", "Tamil"]
+          }
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Electrical Services in Coimbatore",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Domestic & Office Wiring",
+                "description": "Electrical wiring installation, maintenance and repair for homes and offices."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Ceiling & Exhaust Fan Services",
+                "description": "Installation, repair and replacement of ceiling fans and exhaust fans."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "24/7 Emergency Electrical Services",
+                "description": "Electrical emergency assistance for urgent electrical problems."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Old House Rewiring",
+                "description": "Complete rewiring solutions and electrical system upgrades for older buildings."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Switchboard Upgrades",
+                "description": "Switchboard alterations, upgrades and electrical point improvements."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Water Pump Services",
+                "description": "Water pump installation, repair and alarm system installation."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "EOT Crane Services",
+                "description": "Electrical maintenance, troubleshooting and repair services for EOT cranes."
+              }
+            }
+          ]
+        }
       }
     </script>
   </head>
   <body class="bg-white text-brand-charcoal antialiased selection:bg-brand-green/15 selection:text-brand-charcoal">
-    <div id="root"></div>
+    <!-- Pre-rendered semantic HTML shell for instant first paint, search engines, and non-JS crawlers (replaced on React mount) -->
+    <div id="root">
+      <header style="padding:16px 24px;border-bottom:1px solid #e5e7eb;background:#ffffff;">
+        <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+          <a href="#home" style="font-weight:800;color:#24272B;text-decoration:none;">M S Electrical Solution — Doorstep Electrical Services</a>
+          <a href="tel:+919994505144" style="background:#16B832;color:#ffffff;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;">Book a Call — 9994505144</a>
+        </div>
+      </header>
+      <main style="max-width:1280px;margin:0 auto;padding:48px 24px;">
+        <section id="home">
+          <h1 style="font-size:2.5rem;font-weight:800;color:#24272B;line-height:1.15;margin:0 0 16px;">
+            Reliable Electrical Services in Coimbatore, Right at Your Doorstep.
+          </h1>
+          <p style="font-size:1.125rem;color:#4b5563;max-width:640px;margin:0 0 24px;">
+            From household electrical repairs to office wiring and industrial electrical maintenance, M S Electrical Solution delivers dependable electrical services across Coimbatore.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="tel:+919994505144" style="background:#16B832;color:#ffffff;padding:14px 24px;border-radius:12px;font-weight:700;text-decoration:none;">Book a Call — 9994505144</a>
+            <a href="https://wa.me/919994505144?text=Hello%20M%20S%20Electrical%20Solution%2C%20I%20need%20electrical%20service%20in%20Coimbatore.%20Please%20contact%20me." style="border:2px solid #24272B;color:#24272B;padding:12px 24px;border-radius:12px;font-weight:700;text-decoration:none;">WhatsApp Us</a>
+            <a href="#contact" style="color:#16B832;padding:14px 12px;font-weight:700;text-decoration:underline;">Request a Free Service Estimate</a>
+          </div>
+        </section>
+      </main>
+      <footer style="background:#24272B;color:#d1d5db;padding:32px 24px;">
+        <div style="max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;">
+          <p style="margin:0;">&copy; 2026 M S Electrical Solution. All Rights Reserved. 5th Street Ext, Subbana Gounder Layout, Gandhipuram, Coimbatore - 641012.</p>
+          <nav aria-label="Legal">
+            <a href="/privacy-policy.html" style="color:#FFC400;margin-right:16px;">Privacy Policy</a>
+            <a href="/terms-of-service.html" style="color:#FFC400;">Terms of Service</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

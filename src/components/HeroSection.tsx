@@ -168,27 +168,38 @@ export function HeroSection() {
             </p>
 
             {/* Primary & Secondary CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-1">
-              <a
-                href={BUSINESS.phoneHref}
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-brand-green px-6 py-3.5 text-base font-bold text-white shadow-sm transition-all hover:bg-brand-green-dark hover:shadow-md active:scale-[0.99]"
-              >
-                <Phone className="h-5 w-5 shrink-0" aria-hidden="true" />
-                <span>{t.hero.callNow}</span>
-                <span className="text-white/90 font-semibold text-sm border-l border-white/30 pl-2.5">
-                  {BUSINESS.phoneDisplay}
-                </span>
-              </a>
+            <div className="space-y-3 pt-1">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+                <a
+                  href={BUSINESS.phoneHref}
+                  className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-brand-green px-7 py-4 text-base font-extrabold text-white shadow-md ring-2 ring-brand-green/20 transition-all hover:bg-brand-green-dark hover:shadow-lg active:scale-[0.99]"
+                >
+                  <Phone className="h-5 w-5 shrink-0" aria-hidden="true" />
+                  <span>{t.hero.callNow}</span>
+                  <span className="text-white/95 font-bold text-sm border-l border-white/30 pl-2.5">
+                    {BUSINESS.phoneDisplay}
+                  </span>
+                </a>
 
-              <a
-                href={buildWhatsAppUrl(t.brand.defaultWhatsAppMessage)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-brand-charcoal/15 bg-white px-6 py-3.5 text-base font-bold text-brand-charcoal transition-all hover:border-brand-green hover:bg-brand-green-soft/60 hover:text-brand-charcoal active:scale-[0.99]"
-              >
-                <WhatsAppIcon className="h-5 w-5 shrink-0 text-brand-green" />
-                <span>{t.hero.whatsappUs}</span>
-              </a>
+                <a
+                  href={buildWhatsAppUrl(t.brand.defaultWhatsAppMessage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-brand-charcoal/15 bg-white px-6 py-4 text-base font-bold text-brand-charcoal transition-all hover:border-brand-green hover:bg-brand-green-soft/60 hover:text-brand-charcoal active:scale-[0.99]"
+                >
+                  <WhatsAppIcon className="h-5 w-5 shrink-0 text-brand-green" />
+                  <span>{t.hero.whatsappUs}</span>
+                </a>
+              </div>
+
+              <p className="text-xs sm:text-sm font-semibold text-gray-600">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-1 text-brand-charcoal underline decoration-brand-yellow decoration-2 underline-offset-4 hover:text-brand-green transition-colors"
+                >
+                  {t.hero.requestEstimate} &rarr;
+                </a>
+              </p>
             </div>
 
             {/* Trust Highlights */}

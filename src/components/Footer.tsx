@@ -177,10 +177,26 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Copyright Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-gray-400">
-          <p>{t.footer.copyright}</p>
-          <p>{t.footer.subline}</p>
+        {/* Bottom Copyright & Legal Bar */}
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-gray-400">
+          <div className="text-center md:text-left space-y-1">
+            <p>{t.footer.copyright}</p>
+            <p className="text-xs text-gray-500">{t.footer.subline}</p>
+          </div>
+          <nav aria-label="Legal Links" className="flex flex-wrap items-center justify-center gap-5">
+            <a
+              href="/privacy-policy.html"
+              className="text-gray-300 hover:text-brand-yellow underline-offset-4 hover:underline transition-colors"
+            >
+              {t.footer.privacyPolicy}
+            </a>
+            <a
+              href="/terms-of-service.html"
+              className="text-gray-300 hover:text-brand-yellow underline-offset-4 hover:underline transition-colors"
+            >
+              {t.footer.termsOfService}
+            </a>
+          </nav>
         </div>
       </div>
     </footer>
