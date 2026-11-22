@@ -9,10 +9,14 @@
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Tamil', Inter, system-ui, -apple-system, sans-serif;
     color: #24272B;
     background-color: #FFFFFF;
     overflow-x: hidden;
+  }
+
+  html[lang='ta-IN'] body {
+    font-family: 'Noto Sans Tamil', 'Plus Jakarta Sans', system-ui, sans-serif;
   }
 
   *:focus-visible {

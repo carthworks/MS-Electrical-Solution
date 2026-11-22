@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { BUSINESS } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface BrandLogoProps {
   variant?: 'light' | 'dark';
@@ -8,14 +8,15 @@ interface BrandLogoProps {
 
 export function BrandLogo({ variant = 'light', compact = false }: BrandLogoProps) {
   const clipId = useId();
+  const { t } = useLanguage();
   const isDark = variant === 'dark';
 
   return (
-    <span className="inline-flex items-center gap-3 select-none">
+    <span className="inline-flex items-center gap-2.5 sm:gap-3 select-none">
       {/* Business-card faithful circular lightning emblem */}
       <svg
-        width={compact ? 38 : 44}
-        height={compact ? 38 : 44}
+        width={compact ? 36 : 44}
+        height={compact ? 36 : 44}
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -45,20 +46,20 @@ export function BrandLogo({ variant = 'light', compact = false }: BrandLogoProps
         />
       </svg>
 
-      <span className="flex flex-col leading-tight">
+      <span className="flex flex-col leading-tight min-w-0">
         <span
-          className={`font-extrabold tracking-tight ${
-            compact ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'
+          className={`font-extrabold tracking-tight whitespace-nowrap ${
+            compact ? 'text-sm sm:text-base xl:text-lg' : 'text-lg sm:text-xl'
           } ${isDark ? 'text-white' : 'text-brand-charcoal'}`}
         >
           <span className="text-brand-green">M S</span> Electrical Solution
         </span>
         <span
-          className={`text-[11px] sm:text-xs font-medium tracking-wide ${
+          className={`text-[10px] sm:text-xs font-medium tracking-wide truncate ${
             isDark ? 'text-gray-300' : 'text-gray-500'
           }`}
         >
-          {BUSINESS.tagline}
+          {t.brand.tagline}
         </span>
       </span>
     </span>

@@ -1,15 +1,20 @@
 import { Mail, MapPin, Phone } from 'lucide-react';
-import {
-  BUSINESS,
-  NAV_ITEMS,
-  SERVICES,
-  buildServiceWhatsAppUrl,
-  buildWhatsAppUrl,
-} from '../data/business';
+import { BUSINESS, buildWhatsAppUrl } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
 import { BrandLogo } from './BrandLogo';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 export function Footer() {
+  const { lang, setLang, t } = useLanguage();
+
+  const navItems = [
+    { label: t.nav.home, href: '#home', id: 'home' },
+    { label: t.nav.about, href: '#about', id: 'about' },
+    { label: t.nav.services, href: '#services', id: 'services' },
+    { label: t.nav.whyChooseUs, href: '#why-choose-us', id: 'why-choose-us' },
+    { label: t.nav.contact, href: '#contact', id: 'contact' },
+  ];
+
   return (
     <footer className="bg-brand-charcoal text-gray-300 pb-20 sm:pb-0">
       {/* Brand Signature Top Bar */}
@@ -22,20 +27,18 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Brand Column */}
           <div className="lg:col-span-4 space-y-4">
-            <a href="#home" aria-label={`${BUSINESS.name} — Back to top`} className="inline-block">
+            <a href="#home" aria-label={`${BUSINESS.name} — ${t.nav.home}`} className="inline-block">
               <BrandLogo variant="dark" />
             </a>
             <p className="text-sm text-gray-400 leading-relaxed max-w-sm">
-              Coimbatore-based doorstep electrical service provider delivering safe, dependable
-              wiring, repairs, switchboard upgrades, water pump, and industrial EOT crane
-              electrical support.
+              {t.footer.description}
             </p>
-            <div className="flex items-center gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <a
-                href={buildWhatsAppUrl()}
+                href={buildWhatsAppUrl(t.brand.defaultWhatsAppMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Message M S Electrical Solution on WhatsApp"
+                aria-label={t.floating.whatsappAria}
                 className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-green text-white hover:bg-brand-green-dark transition-colors"
               >
                 <WhatsAppIcon className="h-5 w-5" />
@@ -54,16 +57,47 @@ export function Footer() {
               >
                 <Mail className="h-4 w-4" aria-hidden="true" />
               </a>
+
+              <div
+                role="group"
+                aria-label={t.nav.switchLanguageAria}
+                className="ml-1 inline-flex items-center rounded-xl bg-white/10 p-0.5"
+              >
+                <button
+                  type="button"
+                  onClick={() => setLang('en')}
+                  aria-pressed={lang === 'en'}
+                  className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition-colors ${
+                    lang === 'en'
+                      ? 'bg-brand-yellow text-brand-charcoal'
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  EN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLang('ta')}
+                  aria-pressed={lang === 'ta'}
+                  className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition-colors ${
+                    lang === 'ta'
+                      ? 'bg-brand-yellow text-brand-charcoal'
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  தமிழ்
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Quick Navigation */}
           <div className="lg:col-span-2">
             <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-4">
-              Quick Links
+              {t.footer.quickLinks}
             </h3>
             <ul className="space-y-2.5 text-sm">
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <li key={item.id}>
                   <a
                     href={item.href}
@@ -79,13 +113,13 @@ export function Footer() {
           {/* Services List */}
           <div className="lg:col-span-3">
             <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-4">
-              Our Services
+              {t.footer.ourServices}
             </h3>
             <ul className="space-y-2.5 text-sm">
-              {SERVICES.map((service) => (
+              {t.services.items.map((service) => (
                 <li key={service.id}>
                   <a
-                    href={buildServiceWhatsAppUrl(service.title)}
+                    href={buildWhatsAppUrl(t.brand.serviceWhatsAppMessage(service.title))}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-brand-green transition-colors"
@@ -100,7 +134,7 @@ export function Footer() {
           {/* Contact Column */}
           <div className="lg:col-span-3 space-y-4">
             <h3 className="text-sm font-bold uppercase tracking-wider text-white">
-              Contact Details
+              {t.footer.contactDetails}
             </h3>
             <ul className="space-y-3.5 text-sm">
               <li className="flex items-start gap-3">
@@ -113,7 +147,7 @@ export function Footer() {
                     {BUSINESS.phoneInternational}
                   </a>
                   <p className="text-xs text-gray-400">
-                    {BUSINESS.proprietor} ({BUSINESS.proprietorRole})
+                    {BUSINESS.proprietor} ({t.brand.proprietorRole})
                   </p>
                 </div>
               </li>
@@ -136,7 +170,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors leading-relaxed"
                 >
-                  {BUSINESS.streetAddress}, {BUSINESS.locality}, Tamil Nadu
+                  {t.brand.addressLine1}, {t.brand.addressLine2}
                 </a>
               </li>
             </ul>
@@ -145,8 +179,8 @@ export function Footer() {
 
         {/* Bottom Copyright Bar */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-gray-400">
-          <p>&copy; 2026 M S Electrical Solution. All Rights Reserved.</p>
-          <p>Doorstep Electrical Services &bull; Coimbatore, Tamil Nadu</p>
+          <p>{t.footer.copyright}</p>
+          <p>{t.footer.subline}</p>
         </div>
       </div>
     </footer>

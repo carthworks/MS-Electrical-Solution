@@ -8,11 +8,9 @@ import {
   Siren,
   SlidersHorizontal,
 } from 'lucide-react';
-import {
-  type ServiceIconKey,
-  type ServiceItem,
-  buildServiceWhatsAppUrl,
-} from '../data/business';
+import { type ServiceIconKey, buildWhatsAppUrl } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
+import type { TranslatedService } from '../i18n/translations';
 
 const SERVICE_ICONS: Record<ServiceIconKey, typeof Cable> = {
   wiring: Cable,
@@ -25,12 +23,13 @@ const SERVICE_ICONS: Record<ServiceIconKey, typeof Cable> = {
 };
 
 interface ServiceCardProps {
-  service: ServiceItem;
+  service: TranslatedService;
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
+  const { t } = useLanguage();
   const Icon = SERVICE_ICONS[service.icon];
-  const whatsappUrl = buildServiceWhatsAppUrl(service.title);
+  const whatsappUrl = buildWhatsAppUrl(t.brand.serviceWhatsAppMessage(service.title));
 
   return (
     <article
@@ -65,7 +64,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
           )}
         </div>
 
-        <h3 className="text-lg font-bold text-brand-charcoal mb-2.5 group-hover:text-brand-green transition-colors">
+        <h3 className="text-lg font-bold text-brand-charcoal mb-2.5 group-hover:text-brand-green transition-colors leading-snug">
           {service.title}
         </h3>
 
@@ -79,10 +78,10 @@ export function ServiceCard({ service }: ServiceCardProps) {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Enquire now about ${service.title} on WhatsApp`}
+          aria-label={t.services.enquireAria(service.title)}
           className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-green hover:text-brand-green-dark transition-colors"
         >
-          <span>Enquire Now</span>
+          <span>{t.services.enquireNow}</span>
           <ArrowUpRight
             className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden="true"

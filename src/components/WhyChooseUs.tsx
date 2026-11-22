@@ -1,5 +1,6 @@
 import { Clock, Home, Layers, UserCheck } from 'lucide-react';
-import { WHY_CHOOSE_US, type WhyChooseUsItem } from '../data/business';
+import type { WhyChooseUsItem } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const WHY_ICONS: Record<WhyChooseUsItem['icon'], typeof UserCheck> = {
   professionals: UserCheck,
@@ -9,6 +10,8 @@ const WHY_ICONS: Record<WhyChooseUsItem['icon'], typeof UserCheck> = {
 };
 
 export function WhyChooseUs() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="why-choose-us"
@@ -18,26 +21,23 @@ export function WhyChooseUs() {
         <div className="max-w-2xl mx-auto text-center space-y-3 mb-12 lg:mb-14">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
             <span className="h-1.5 w-6 rounded-full bg-brand-yellow" aria-hidden="true" />
-            <span>Why Choose Us</span>
+            <span>{t.whyChooseUs.eyebrow}</span>
             <span className="h-1.5 w-6 rounded-full bg-brand-yellow" aria-hidden="true" />
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-charcoal">
-            Why Customers Choose M S Electrical Solution
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-charcoal leading-tight">
+            {t.whyChooseUs.heading}
           </h2>
-          <p className="text-base sm:text-lg text-gray-600">
-            Dependable workmanship, prompt doorstep support, and safe electrical solutions for
-            Coimbatore homes and workplaces.
-          </p>
+          <p className="text-base sm:text-lg text-gray-600">{t.whyChooseUs.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {WHY_CHOOSE_US.map((item) => {
+          {t.whyChooseUs.items.map((item) => {
             const Icon = WHY_ICONS[item.icon];
             const isEmergency = item.icon === 'emergency';
 
             return (
               <div
-                key={item.title}
+                key={item.icon}
                 className="group relative rounded-2xl border border-gray-200/80 bg-white p-6 shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover overflow-hidden"
               >
                 <span

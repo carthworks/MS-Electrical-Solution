@@ -11,33 +11,22 @@ import {
   ShieldCheck,
   Zap,
 } from 'lucide-react';
-import { BUSINESS, HERO_SLIDES, buildWhatsAppUrl } from '../data/business';
+import { BUSINESS, buildWhatsAppUrl } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
-const TRUST_HIGHLIGHTS = [
-  {
-    label: 'Doorstep Electrical Services',
-    icon: MapPin,
-  },
-  {
-    label: 'Experienced Professionals',
-    icon: ShieldCheck,
-  },
-  {
-    label: '24/7 Emergency Electrical Support',
-    icon: Clock,
-  },
-];
-
+const TRUST_ICONS = [MapPin, ShieldCheck, Clock] as const;
 const SLIDE_INTERVAL_MS = 4800;
 
 export function HeroSection() {
+  const { t } = useLanguage();
+  const slides = t.hero.slides;
+  const totalSlides = slides.length;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const touchStartX = useRef<number | null>(null);
-
-  const totalSlides = HERO_SLIDES.length;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -80,7 +69,7 @@ export function HeroSection() {
     }
   };
 
-  const activeSlide = HERO_SLIDES[activeIndex];
+  const activeSlide = slides[activeIndex];
 
   return (
     <section
@@ -95,7 +84,6 @@ export function HeroSection() {
         fill="none"
         preserveAspectRatio="xMidYMid slice"
       >
-        {/* Static subtle circuit lines */}
         <path
           d="M-20 110 H190 L230 150 H410"
           stroke="#16B832"
@@ -115,7 +103,6 @@ export function HeroSection() {
           strokeWidth="2"
         />
 
-        {/* Animated live current pulses along circuit lines */}
         <path
           d="M-20 110 H190 L230 150 H410"
           stroke="#16B832"
@@ -141,7 +128,6 @@ export function HeroSection() {
           className="animate-circuit-flow-delayed"
         />
 
-        {/* Subtle circuit terminal nodes */}
         <circle cx="410" cy="150" r="4" fill="#16B832" className="animate-node-blink" />
         <circle cx="960" cy="515" r="4" fill="#FFC400" className="animate-node-blink" />
         <circle cx="940" cy="110" r="3.5" fill="#16B832" className="animate-node-blink" />
@@ -153,22 +139,22 @@ export function HeroSection() {
           <div className="lg:col-span-6 space-y-6">
             {/* Availability Badge with Live Electrical Pulse */}
             <div className="inline-flex items-center gap-2.5 rounded-full border border-brand-yellow/60 bg-brand-yellow-soft px-4 py-1.5 text-xs sm:text-sm font-semibold text-brand-charcoal shadow-xs">
-              <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+              <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-red opacity-75" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-red" />
               </span>
-              <span>Available for Emergency Services</span>
+              <span>{t.hero.availabilityBadge}</span>
               <Zap
-                className="h-3.5 w-3.5 text-brand-green fill-brand-yellow animate-bolt-pulse"
+                className="h-3.5 w-3.5 shrink-0 text-brand-green fill-brand-yellow animate-bolt-pulse"
                 aria-hidden="true"
               />
             </div>
 
             {/* Main H1 */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight text-brand-charcoal leading-[1.14]">
-              Reliable Electrical Services,{' '}
+            <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-brand-charcoal leading-[1.2]">
+              {t.hero.headingStart}{' '}
               <span className="relative inline-block">
-                <span className="relative z-10 text-brand-green">Right at Your Doorstep.</span>
+                <span className="relative z-10 text-brand-green">{t.hero.headingHighlight}</span>
                 <span
                   aria-hidden="true"
                   className="absolute left-0 right-0 bottom-1 h-2.5 bg-brand-yellow/35 -z-0 rounded-sm"
@@ -178,9 +164,7 @@ export function HeroSection() {
 
             {/* Supporting Text */}
             <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl">
-              From household electrical repairs to office wiring and industrial electrical
-              maintenance, M S Electrical Solution delivers dependable electrical services across
-              Coimbatore.
+              {t.hero.subtitle}
             </p>
 
             {/* Primary & Secondary CTAs */}
@@ -189,36 +173,39 @@ export function HeroSection() {
                 href={BUSINESS.phoneHref}
                 className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-brand-green px-6 py-3.5 text-base font-bold text-white shadow-sm transition-all hover:bg-brand-green-dark hover:shadow-md active:scale-[0.99]"
               >
-                <Phone className="h-5 w-5" aria-hidden="true" />
-                <span>Call Now</span>
+                <Phone className="h-5 w-5 shrink-0" aria-hidden="true" />
+                <span>{t.hero.callNow}</span>
                 <span className="text-white/90 font-semibold text-sm border-l border-white/30 pl-2.5">
                   {BUSINESS.phoneDisplay}
                 </span>
               </a>
 
               <a
-                href={buildWhatsAppUrl()}
+                href={buildWhatsAppUrl(t.brand.defaultWhatsAppMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-brand-charcoal/15 bg-white px-6 py-3.5 text-base font-bold text-brand-charcoal transition-all hover:border-brand-green hover:bg-brand-green-soft/60 hover:text-brand-charcoal active:scale-[0.99]"
               >
-                <WhatsAppIcon className="h-5 w-5 text-brand-green" />
-                <span>WhatsApp Us</span>
+                <WhatsAppIcon className="h-5 w-5 shrink-0 text-brand-green" />
+                <span>{t.hero.whatsappUs}</span>
               </a>
             </div>
 
             {/* Trust Highlights */}
             <ul className="pt-4 border-t border-gray-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-              {TRUST_HIGHLIGHTS.map(({ label, icon: Icon }) => (
-                <li key={label} className="flex items-start gap-2.5">
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-brand-green-soft text-brand-green">
-                    <Icon className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                  <span className="text-sm font-semibold text-brand-charcoal leading-snug">
-                    {label}
-                  </span>
-                </li>
-              ))}
+              {t.hero.trustHighlights.map((label, idx) => {
+                const Icon = TRUST_ICONS[idx];
+                return (
+                  <li key={label} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-brand-green-soft text-brand-green">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <span className="text-sm font-semibold text-brand-charcoal leading-snug">
+                      {label}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -227,7 +214,7 @@ export function HeroSection() {
             <div
               role="region"
               aria-roledescription="carousel"
-              aria-label="M S Electrical Solution Coimbatore services showcase"
+              aria-label={t.hero.carouselLabel}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onFocus={() => setIsPaused(true)}
@@ -249,7 +236,7 @@ export function HeroSection() {
               <div className="relative z-10 overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-card-hover">
                 {/* Image Viewport */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-charcoal/5">
-                  {HERO_SLIDES.map((slide, index) => {
+                  {slides.map((slide, index) => {
                     const isActive = index === activeIndex;
                     return (
                       <img
@@ -273,7 +260,7 @@ export function HeroSection() {
                   {/* Top-Left Live Slide Category Pill */}
                   <div className="absolute top-3.5 left-3.5 z-20 inline-flex items-center gap-1.5 rounded-full bg-brand-charcoal/85 backdrop-blur-sm px-3 py-1.5 text-xs font-bold text-white shadow-sm">
                     <Zap
-                      className="h-3.5 w-3.5 text-brand-yellow fill-brand-yellow animate-bolt-pulse"
+                      className="h-3.5 w-3.5 shrink-0 text-brand-yellow fill-brand-yellow animate-bolt-pulse"
                       aria-hidden="true"
                     />
                     <span>{activeSlide.tag}</span>
@@ -287,7 +274,7 @@ export function HeroSection() {
                     <button
                       type="button"
                       onClick={() => setIsPaused((prev) => !prev)}
-                      aria-label={isPaused ? 'Resume image slideshow' : 'Pause image slideshow'}
+                      aria-label={isPaused ? t.hero.resumeSlideshow : t.hero.pauseSlideshow}
                       className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-charcoal/75 backdrop-blur-sm text-white hover:bg-brand-charcoal transition-colors"
                     >
                       {isPaused ? (
@@ -302,7 +289,7 @@ export function HeroSection() {
                   <button
                     type="button"
                     onClick={goToPrev}
-                    aria-label="Previous service photo"
+                    aria-label={t.hero.prevSlide}
                     className="absolute left-3 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/90 text-brand-charcoal shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-brand-green active:scale-95"
                   >
                     <ChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -311,13 +298,13 @@ export function HeroSection() {
                   <button
                     type="button"
                     onClick={goToNext}
-                    aria-label="Next service photo"
+                    aria-label={t.hero.nextSlide}
                     className="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/90 text-brand-charcoal shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-brand-green active:scale-95"
                   >
                     <ChevronRight className="h-5 w-5" aria-hidden="true" />
                   </button>
 
-                  {/* Animated Electrical Current Flow Line along bottom of photo */}
+                  {/* Animated Electrical Current Flow Line */}
                   <div
                     aria-hidden="true"
                     className="absolute inset-x-0 bottom-0 z-20 h-1 bg-brand-charcoal/40 overflow-hidden"
@@ -342,13 +329,12 @@ export function HeroSection() {
                       </p>
                     </div>
 
-                    {/* Slide Indicator Pills with Active Timing Progress */}
                     <div
                       role="tablist"
-                      aria-label="Choose a service photo"
+                      aria-label={t.hero.chooseSlide}
                       className="flex items-center gap-1.5 shrink-0"
                     >
-                      {HERO_SLIDES.map((slide, index) => {
+                      {slides.map((slide, index) => {
                         const isActive = index === activeIndex;
                         return (
                           <button
@@ -356,7 +342,7 @@ export function HeroSection() {
                             type="button"
                             role="tab"
                             aria-selected={isActive}
-                            aria-label={`View slide ${index + 1}: ${slide.caption}`}
+                            aria-label={`${index + 1}: ${slide.caption}`}
                             onClick={() => setActiveIndex(index)}
                             className={`relative h-2 rounded-full overflow-hidden transition-all duration-300 ${
                               isActive

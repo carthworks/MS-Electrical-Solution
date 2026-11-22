@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Menu, Phone, X } from 'lucide-react';
-import { BUSINESS, NAV_ITEMS, buildWhatsAppUrl } from '../data/business';
+import { Languages, Menu, Phone, X } from 'lucide-react';
+import { BUSINESS, buildWhatsAppUrl } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
 import { BrandLogo } from './BrandLogo';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 export function Navbar() {
+  const { lang, setLang, t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string>('home');
+
+  const navItems = [
+    { label: t.nav.home, href: '#home', id: 'home' },
+    { label: t.nav.about, href: '#about', id: 'about' },
+    { label: t.nav.services, href: '#services', id: 'services' },
+    { label: t.nav.whyChooseUs, href: '#why-choose-us', id: 'why-choose-us' },
+    { label: t.nav.contact, href: '#contact', id: 'contact' },
+  ];
 
   useEffect(() => {
     const onScroll = () => {
@@ -19,9 +29,10 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    const sectionElements = NAV_ITEMS.map((item) => document.getElementById(item.id)).filter(
-      (el): el is HTMLElement => Boolean(el)
-    );
+    const ids = ['home', 'about', 'services', 'why-choose-us', 'contact'];
+    const sectionElements = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
 
     if (sectionElements.length === 0) return;
 
@@ -65,25 +76,25 @@ export function Navbar() {
         <div className="w-1/2 bg-brand-green" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 sm:h-[72px] items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
+        <div className="flex h-16 sm:h-[72px] items-center justify-between gap-3">
           <a
             href="#home"
-            aria-label={`${BUSINESS.name} — Back to top`}
-            className="rounded-lg focus-visible:outline-brand-green"
+            aria-label={`${BUSINESS.name} — ${t.nav.home}`}
+            className="rounded-lg min-w-0 focus-visible:outline-brand-green"
           >
             <BrandLogo compact />
           </a>
 
           {/* Desktop Navigation */}
-          <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-1">
-            {NAV_ITEMS.map((item) => {
+          <nav aria-label="Primary Navigation" className="hidden lg:flex items-center gap-0.5 xl:gap-1">
+            {navItems.map((item) => {
               const isActive = activeId === item.id;
               return (
                 <a
                   key={item.id}
                   href={item.href}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                  className={`whitespace-nowrap px-3 xl:px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     isActive
                       ? 'text-brand-green bg-brand-green-soft'
                       : 'text-brand-charcoal hover:text-brand-green hover:bg-gray-50'
@@ -95,32 +106,74 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Desktop Right CTA */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Desktop Right: Language Switcher + Call Now */}
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+            <div
+              role="group"
+              aria-label={t.nav.switchLanguageAria}
+              className="inline-flex items-center rounded-xl border border-gray-200 bg-brand-bg p-0.5"
+            >
+              <button
+                type="button"
+                onClick={() => setLang('en')}
+                aria-pressed={lang === 'en'}
+                className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition-colors ${
+                  lang === 'en'
+                    ? 'bg-brand-charcoal text-white shadow-xs'
+                    : 'text-gray-600 hover:text-brand-charcoal'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLang('ta')}
+                aria-pressed={lang === 'ta'}
+                className={`rounded-lg px-2.5 py-1.5 text-xs font-bold transition-colors ${
+                  lang === 'ta'
+                    ? 'bg-brand-charcoal text-white shadow-xs'
+                    : 'text-gray-600 hover:text-brand-charcoal'
+                }`}
+              >
+                தமிழ்
+              </button>
+            </div>
+
             <a
               href={BUSINESS.phoneHref}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-green px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-green-dark hover:shadow-md active:scale-[0.99]"
+              className="inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-brand-green px-4 xl:px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-brand-green-dark hover:shadow-md active:scale-[0.99]"
             >
               <Phone className="h-4 w-4" aria-hidden="true" />
-              <span>Call Now</span>
+              <span>{t.nav.callNow}</span>
             </a>
           </div>
 
-          {/* Mobile / Tablet Quick Call + Hamburger */}
-          <div className="flex lg:hidden items-center gap-2">
+          {/* Mobile / Tablet Quick Language Toggle + Call + Hamburger */}
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => setLang(lang === 'en' ? 'ta' : 'en')}
+              aria-label={t.nav.switchLanguageAria}
+              className="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-brand-bg px-2.5 py-2 text-xs font-bold text-brand-charcoal hover:border-brand-green transition-colors"
+            >
+              <Languages className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />
+              <span>{lang === 'en' ? 'தமிழ்' : 'EN'}</span>
+            </button>
+
             <a
               href={BUSINESS.phoneHref}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand-green px-3.5 py-2 text-xs sm:text-sm font-bold text-white shadow-sm transition-colors hover:bg-brand-green-dark"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-lg bg-brand-green px-3.5 py-2 text-xs sm:text-sm font-bold text-white shadow-sm transition-colors hover:bg-brand-green-dark"
             >
               <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
-              <span>Call Now</span>
+              <span>{t.nav.callNow}</span>
             </a>
+
             <button
               type="button"
               onClick={() => setMobileOpen((prev) => !prev)}
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
-              aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-label={mobileOpen ? t.nav.closeMenu : t.nav.openMenu}
               className="inline-flex items-center justify-center rounded-lg border border-gray-200 p-2 text-brand-charcoal hover:bg-gray-50 transition-colors"
             >
               {mobileOpen ? (
@@ -143,7 +196,7 @@ export function Navbar() {
             aria-label="Mobile Navigation"
             className="mx-auto max-w-7xl px-4 py-4 space-y-1"
           >
-            {NAV_ITEMS.map((item) => {
+            {navItems.map((item) => {
               const isActive = activeId === item.id;
               return (
                 <a
@@ -168,17 +221,17 @@ export function Navbar() {
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-green px-4 py-3 text-sm font-bold text-white hover:bg-brand-green-dark transition-colors"
               >
                 <Phone className="h-4 w-4" aria-hidden="true" />
-                <span>Call {BUSINESS.phoneDisplay}</span>
+                <span>{t.nav.callPhone}</span>
               </a>
               <a
-                href={buildWhatsAppUrl()}
+                href={buildWhatsAppUrl(t.brand.defaultWhatsAppMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleNavClick}
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-brand-charcoal/20 bg-white px-4 py-3 text-sm font-bold text-brand-charcoal hover:bg-gray-50 transition-colors"
               >
                 <WhatsAppIcon className="h-4 w-4 text-brand-green" />
-                <span>WhatsApp Us</span>
+                <span>{t.nav.whatsappUs}</span>
               </a>
             </div>
           </nav>

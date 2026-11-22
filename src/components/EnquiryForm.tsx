@@ -1,13 +1,8 @@
 import { type FormEvent, useState } from 'react';
-import {
-  AlertCircle,
-  Check,
-  CheckCircle2,
-  Copy,
-  Mail,
-  Send,
-} from 'lucide-react';
-import { BUSINESS, SERVICES, buildWhatsAppUrl } from '../data/business';
+import { AlertCircle, Check, CheckCircle2, Copy, Mail, Send } from 'lucide-react';
+import { BUSINESS, buildWhatsAppUrl } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
+import type { SiteTranslations } from '../i18n/translations';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface FormValues {
@@ -39,55 +34,59 @@ function normalizeIndianMobile(raw: string): string {
   return digits;
 }
 
-function validateForm(values: FormValues): FormErrors {
+function validateForm(values: FormValues, errMsgs: SiteTranslations['form']['errors']): FormErrors {
   const errors: FormErrors = {};
 
   if (!values.fullName.trim()) {
-    errors.fullName = 'Please enter your full name.';
+    errors.fullName = errMsgs.fullNameRequired;
   } else if (values.fullName.trim().length < 2) {
-    errors.fullName = 'Name must be at least 2 characters.';
+    errors.fullName = errMsgs.fullNameMin;
   }
 
   const normalizedMobile = normalizeIndianMobile(values.mobile);
   if (!values.mobile.trim()) {
-    errors.mobile = 'Please enter your mobile number.';
+    errors.mobile = errMsgs.mobileRequired;
   } else if (!/^[6-9]\d{9}$/.test(normalizedMobile)) {
-    errors.mobile = 'Enter a valid 10-digit Indian mobile number (e.g., 9994505144).';
+    errors.mobile = errMsgs.mobileInvalid;
   }
 
   if (!values.service) {
-    errors.service = 'Please select the electrical service you need.';
+    errors.service = errMsgs.serviceRequired;
   }
 
   if (!values.address.trim()) {
-    errors.address = 'Please enter your address or area in Coimbatore.';
+    errors.address = errMsgs.addressRequired;
   } else if (values.address.trim().length < 3) {
-    errors.address = 'Please enter a clearer locality or address.';
+    errors.address = errMsgs.addressMin;
   }
 
   if (!values.description.trim()) {
-    errors.description = 'Please briefly describe the electrical issue or work needed.';
+    errors.description = errMsgs.descriptionRequired;
   } else if (values.description.trim().length < 10) {
-    errors.description = 'Please provide at least a short 10-character description.';
+    errors.description = errMsgs.descriptionMin;
   }
 
   return errors;
 }
 
-function buildStructuredEnquiryText(values: FormValues): string {
+function buildStructuredEnquiryText(
+  values: FormValues,
+  successCopy: SiteTranslations['form']['success']
+): string {
   const cleanMobile = normalizeIndianMobile(values.mobile);
   return [
-    `Hello ${BUSINESS.name}, I have a new service enquiry from your website:`,
+    successCopy.summaryHeader,
     '',
-    `Name: ${values.fullName.trim()}`,
-    `Mobile: +91 ${cleanMobile}`,
-    `Service Required: ${values.service}`,
-    `Address / Area: ${values.address.trim()}`,
-    `Problem Description: ${values.description.trim()}`,
+    `${successCopy.summaryName}: ${values.fullName.trim()}`,
+    `${successCopy.summaryMobile}: +91 ${cleanMobile}`,
+    `${successCopy.summaryService}: ${values.service}`,
+    `${successCopy.summaryAddress}: ${values.address.trim()}`,
+    `${successCopy.summaryProblem}: ${values.description.trim()}`,
   ].join('\n');
 }
 
 export function EnquiryForm() {
+  const { t } = useLanguage();
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submittedData, setSubmittedData] = useState<{
@@ -112,7 +111,7 @@ export function EnquiryForm() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const nextErrors = validateForm(values);
+    const nextErrors = validateForm(values, t.form.errors);
 
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
@@ -122,10 +121,10 @@ export function EnquiryForm() {
       return;
     }
 
-    const summaryText = buildStructuredEnquiryText(values);
+    const summaryText = buildStructuredEnquiryText(values, t.form.success);
     const whatsappUrl = buildWhatsAppUrl(summaryText);
     const mailtoUrl = `mailto:${BUSINESS.email}?subject=${encodeURIComponent(
-      `Electrical Service Enquiry - ${values.service}`
+      `${t.form.success.emailSubjectPrefix} - ${values.service}`
     )}&body=${encodeURIComponent(summaryText)}`;
 
     setSubmittedData({
@@ -137,7 +136,6 @@ export function EnquiryForm() {
     });
     setErrors({});
 
-    // Trigger WhatsApp workflow directly on user submit gesture
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -172,13 +170,13 @@ export function EnquiryForm() {
           </span>
           <div>
             <h3 className="text-xl font-extrabold text-brand-charcoal">
-              Enquiry Ready to Send on WhatsApp
+              {t.form.success.heading}
             </h3>
             <p className="text-sm sm:text-base text-gray-700 mt-1 leading-relaxed">
-              Thank you, <span className="font-bold">{submittedData.name}</span>. Your{' '}
-              <span className="font-semibold">{submittedData.service}</span> enquiry has been
-              formatted for WhatsApp. Tap <span className="font-semibold">Send</span> in WhatsApp
-              so our team can contact you promptly.
+              {t.form.success.bodyPrefix}{' '}
+              <span className="font-bold">{submittedData.name}</span>. {t.form.success.bodyMiddle}{' '}
+              <span className="font-semibold">{submittedData.service}</span>{' '}
+              {t.form.success.bodySuffix}
             </p>
           </div>
         </div>
@@ -195,7 +193,7 @@ export function EnquiryForm() {
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-green px-5 py-3 text-sm font-bold text-white hover:bg-brand-green-dark transition-colors"
           >
             <WhatsAppIcon className="h-4 w-4" />
-            <span>Open WhatsApp Chat</span>
+            <span>{t.form.success.openWhatsapp}</span>
           </a>
 
           <a
@@ -203,7 +201,7 @@ export function EnquiryForm() {
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-bold text-brand-charcoal hover:bg-gray-50 transition-colors"
           >
             <Mail className="h-4 w-4 text-brand-green" aria-hidden="true" />
-            <span>Send via Email Instead</span>
+            <span>{t.form.success.sendEmail}</span>
           </a>
 
           <button
@@ -214,12 +212,12 @@ export function EnquiryForm() {
             {copied ? (
               <>
                 <Check className="h-4 w-4 text-brand-green" aria-hidden="true" />
-                <span>Copied</span>
+                <span>{t.form.success.copied}</span>
               </>
             ) : (
               <>
                 <Copy className="h-4 w-4" aria-hidden="true" />
-                <span>Copy Details</span>
+                <span>{t.form.success.copyDetails}</span>
               </>
             )}
           </button>
@@ -231,7 +229,7 @@ export function EnquiryForm() {
             onClick={handleReset}
             className="text-sm font-bold text-brand-charcoal underline underline-offset-4 hover:text-brand-green transition-colors"
           >
-            Submit another enquiry
+            {t.form.success.submitAnother}
           </button>
         </div>
       </div>
@@ -245,10 +243,8 @@ export function EnquiryForm() {
       className="rounded-2xl border border-gray-200/90 bg-white p-6 sm:p-8 shadow-card space-y-5"
     >
       <div className="space-y-1">
-        <h3 className="text-xl font-extrabold text-brand-charcoal">Send a Service Enquiry</h3>
-        <p className="text-sm text-gray-500">
-          Fill out the details below to send your request directly to our WhatsApp service desk.
-        </p>
+        <h3 className="text-xl font-extrabold text-brand-charcoal">{t.form.heading}</h3>
+        <p className="text-sm text-gray-500">{t.form.subtitle}</p>
       </div>
 
       {Object.keys(errors).length > 0 && (
@@ -257,7 +253,7 @@ export function EnquiryForm() {
           className="flex items-start gap-2.5 rounded-xl border border-brand-red/30 bg-brand-red-soft px-4 py-3 text-sm text-brand-red"
         >
           <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" aria-hidden="true" />
-          <span>Please fix the highlighted fields below before submitting your enquiry.</span>
+          <span>{t.form.errorBanner}</span>
         </div>
       )}
 
@@ -268,7 +264,7 @@ export function EnquiryForm() {
             htmlFor="enquiry-fullName"
             className="block text-sm font-semibold text-brand-charcoal mb-1.5"
           >
-            Full Name <span className="text-brand-red">*</span>
+            {t.form.fullNameLabel} <span className="text-brand-red">*</span>
           </label>
           <input
             id="enquiry-fullName"
@@ -276,7 +272,7 @@ export function EnquiryForm() {
             type="text"
             autoComplete="name"
             required
-            placeholder="Your full name"
+            placeholder={t.form.fullNamePlaceholder}
             value={values.fullName}
             onChange={(e) => handleChange('fullName', e.target.value)}
             aria-invalid={Boolean(errors.fullName)}
@@ -300,7 +296,7 @@ export function EnquiryForm() {
             htmlFor="enquiry-mobile"
             className="block text-sm font-semibold text-brand-charcoal mb-1.5"
           >
-            Mobile Number <span className="text-brand-red">*</span>
+            {t.form.mobileLabel} <span className="text-brand-red">*</span>
           </label>
           <input
             id="enquiry-mobile"
@@ -309,7 +305,7 @@ export function EnquiryForm() {
             inputMode="tel"
             autoComplete="tel"
             required
-            placeholder="10-digit mobile number"
+            placeholder={t.form.mobilePlaceholder}
             value={values.mobile}
             onChange={(e) => handleChange('mobile', e.target.value)}
             aria-invalid={Boolean(errors.mobile)}
@@ -334,7 +330,7 @@ export function EnquiryForm() {
           htmlFor="enquiry-service"
           className="block text-sm font-semibold text-brand-charcoal mb-1.5"
         >
-          Service Required <span className="text-brand-red">*</span>
+          {t.form.serviceLabel} <span className="text-brand-red">*</span>
         </label>
         <select
           id="enquiry-service"
@@ -350,13 +346,13 @@ export function EnquiryForm() {
               : 'border-gray-300 focus:border-brand-green focus:ring-brand-green/20'
           }`}
         >
-          <option value="">Select an electrical service...</option>
-          {SERVICES.map((service) => (
+          <option value="">{t.form.servicePlaceholder}</option>
+          {t.services.items.map((service) => (
             <option key={service.id} value={service.title}>
               {service.title}
             </option>
           ))}
-          <option value="Other Electrical Service">Other Electrical Service</option>
+          <option value={t.form.otherServiceOption}>{t.form.otherServiceOption}</option>
         </select>
         {errors.service && (
           <p id="error-service" className="mt-1.5 text-xs font-medium text-brand-red">
@@ -371,7 +367,7 @@ export function EnquiryForm() {
           htmlFor="enquiry-address"
           className="block text-sm font-semibold text-brand-charcoal mb-1.5"
         >
-          Address / Area <span className="text-brand-red">*</span>
+          {t.form.addressLabel} <span className="text-brand-red">*</span>
         </label>
         <input
           id="enquiry-address"
@@ -379,7 +375,7 @@ export function EnquiryForm() {
           type="text"
           autoComplete="street-address"
           required
-          placeholder="e.g., Gandhipuram, RS Puram, Peelamedu, Coimbatore"
+          placeholder={t.form.addressPlaceholder}
           value={values.address}
           onChange={(e) => handleChange('address', e.target.value)}
           aria-invalid={Boolean(errors.address)}
@@ -403,14 +399,14 @@ export function EnquiryForm() {
           htmlFor="enquiry-description"
           className="block text-sm font-semibold text-brand-charcoal mb-1.5"
         >
-          Description of Problem <span className="text-brand-red">*</span>
+          {t.form.descriptionLabel} <span className="text-brand-red">*</span>
         </label>
         <textarea
           id="enquiry-description"
           name="description"
           rows={4}
           required
-          placeholder="Describe the electrical issue, appliance, or installation requirement..."
+          placeholder={t.form.descriptionPlaceholder}
           value={values.description}
           onChange={(e) => handleChange('description', e.target.value)}
           aria-invalid={Boolean(errors.description)}
@@ -432,13 +428,11 @@ export function EnquiryForm() {
         type="submit"
         className="w-full inline-flex items-center justify-center gap-2.5 rounded-xl bg-brand-green px-6 py-3.5 text-base font-bold text-white shadow-sm transition-all hover:bg-brand-green-dark hover:shadow-md active:scale-[0.99]"
       >
-        <Send className="h-4 w-4" aria-hidden="true" />
-        <span>Submit Enquiry via WhatsApp</span>
+        <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
+        <span>{t.form.submitCta}</span>
       </button>
 
-      <p className="text-xs text-gray-500 text-center">
-        Opens WhatsApp with your prefilled details. Email fallback is also provided after submission.
-      </p>
+      <p className="text-xs text-gray-500 text-center">{t.form.submitNote}</p>
     </form>
   );
 }

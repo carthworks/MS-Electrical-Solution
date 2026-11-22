@@ -1,22 +1,12 @@
 import { ArrowRight, CheckCircle2, MapPin, ShieldCheck, Wrench } from 'lucide-react';
 import { BUSINESS } from '../data/business';
+import { useLanguage } from '../i18n/LanguageContext';
 
-const ABOUT_POINTS = [
-  {
-    icon: ShieldCheck,
-    text: 'Safety-first workmanship using proper testing tools and insulated equipment',
-  },
-  {
-    icon: Wrench,
-    text: 'Residential, commercial office, and industrial electrical maintenance under one roof',
-  },
-  {
-    icon: MapPin,
-    text: `Based in Gandhipuram, Coimbatore — doorstep service across the city`,
-  },
-];
+const ABOUT_ICONS = [ShieldCheck, Wrench, MapPin] as const;
 
 export function AboutSection() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="bg-brand-bg py-16 sm:py-20 lg:py-24 border-b border-gray-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -27,7 +17,7 @@ export function AboutSection() {
               <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-card">
                 <img
                   src="/images/about-technician.jpg"
-                  alt="Experienced electrical technician wearing safety glasses and insulated gloves preparing electrical testing tools"
+                  alt={t.about.imageAlt}
                   width={1000}
                   height={750}
                   loading="lazy"
@@ -42,11 +32,9 @@ export function AboutSection() {
                 </span>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-brand-green">
-                    Coimbatore Doorstep Team
+                    {t.about.badgeTop}
                   </p>
-                  <p className="text-sm font-bold text-brand-charcoal">
-                    Safe &amp; Dependable Electrical Care
-                  </p>
+                  <p className="text-sm font-bold text-brand-charcoal">{t.about.badgeBottom}</p>
                 </div>
               </div>
             </div>
@@ -56,37 +44,32 @@ export function AboutSection() {
           <div className="lg:col-span-7 order-1 lg:order-2 space-y-5">
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
               <span className="h-1.5 w-6 rounded-full bg-brand-yellow" aria-hidden="true" />
-              <span>About Us</span>
+              <span>{t.about.eyebrow}</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-charcoal leading-tight">
-              Your Trusted Electrical Service Partner in Coimbatore
+              {t.about.heading}
             </h2>
 
             <div className="space-y-4 text-base text-gray-600 leading-relaxed">
-              <p>
-                M S Electrical Solution is a Coimbatore-based doorstep electrical service provider.
-                Electricity is an essential part of everyday life, and we understand how important
-                safe and reliable electrical systems are for homes and businesses.
-              </p>
-              <p>
-                Our experienced professionals handle a wide range of electrical work and household
-                maintenance requirements, providing convenient and dependable service at your
-                doorstep.
-              </p>
+              <p>{t.about.paragraph1}</p>
+              <p>{t.about.paragraph2}</p>
             </div>
 
             <ul className="space-y-3 pt-2">
-              {ABOUT_POINTS.map(({ icon: Icon, text }) => (
-                <li key={text} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-brand-green-soft text-brand-green">
-                    <Icon className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                  <span className="text-sm sm:text-base font-medium text-brand-charcoal">
-                    {text}
-                  </span>
-                </li>
-              ))}
+              {t.about.points.map((text, idx) => {
+                const Icon = ABOUT_ICONS[idx];
+                return (
+                  <li key={text} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-brand-green-soft text-brand-green">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <span className="text-sm sm:text-base font-medium text-brand-charcoal">
+                      {text}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="pt-3 flex flex-wrap items-center gap-4">
@@ -94,14 +77,14 @@ export function AboutSection() {
                 href="#services"
                 className="inline-flex items-center gap-2 rounded-xl bg-brand-charcoal px-5 py-3 text-sm font-bold text-white transition-all hover:bg-brand-charcoal-light"
               >
-                <span>Explore Our Services</span>
+                <span>{t.about.exploreServices}</span>
                 <ArrowRight className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
               </a>
               <a
                 href={BUSINESS.phoneHref}
                 className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-green hover:text-brand-green-dark transition-colors"
               >
-                <span>Need quick advice? Call {BUSINESS.phoneDisplay}</span>
+                <span>{t.about.quickAdvice}</span>
               </a>
             </div>
           </div>
