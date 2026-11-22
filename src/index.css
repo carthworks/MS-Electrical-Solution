@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+    color: #24272B;
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #16B832;
+    outline-offset: 2px;
+  }
+}
+
+.electrical-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(36, 39, 43, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 39, 43, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.emergency-circuit-bg {
+  background-image:
+    radial-gradient(circle at 18px 18px, rgba(255, 255, 255, 0.14) 1.5px, transparent 1.5px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* Electrical-themed subtle animations */
+@keyframes circuitTraceFlow {
+  0% {
+    stroke-dashoffset: 320;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes currentShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes boltPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(255, 196, 0, 0));
+  }
+  50% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 6px rgba(255, 196, 0, 0.75));
+  }
+}
+
+@keyframes nodeBlink {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes slideProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-circuit-flow {
+  stroke-dasharray: 70 250;
+  stroke-dashoffset: 320;
+  animation: circuitTraceFlow 5.5s linear infinite;
+}
+
+.animate-circuit-flow-delayed {
+  stroke-dasharray: 60 260;
+  stroke-dashoffset: 320;
+  animation: circuitTraceFlow 6.5s linear 2.2s infinite;
+}
+
+.animate-current-shimmer {
+  animation: currentShimmer 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-bolt-pulse {
+  animation: boltPulse 2.4s ease-in-out infinite;
+}
+
+.animate-node-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nodeBlink 3s ease-in-out infinite;
+}
+
+.animate-slide-progress {
+  transform-origin: left center;
+  animation: slideProgress 4.8s linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-circuit-flow,
+  .animate-circuit-flow-delayed,
+  .animate-current-shimmer,
+  .animate-bolt-pulse,
+  .animate-node-blink,
+  .animate-slide-progress {
+    animation: none !important;
+  }
+}
